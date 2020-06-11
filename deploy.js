@@ -14,11 +14,9 @@ const deploy = async () => {
   console.log('Attempting to deploy from account', accounts[0]);
 
   const result = await new web3.eth.Contract(JSON.parse(interface))
-    .deploy({ data: '0x' + bytecode, arguments: ['hello world'] })
+    .deploy({ data: '0x' + bytecode })
     .send({ from: accounts[0] });
 
     console.log('Contract deployed to', result.options.address);
 };
 deploy();
-
-/* https://rinkeby.infura.io/v3/1385039fb2fb405a9272dec867afb43b */
