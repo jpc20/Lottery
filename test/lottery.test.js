@@ -20,6 +20,7 @@ describe('Lottery Contract', () => {
   it('Deploys a Contract', () => {
     assert.ok(lottery.options.address)
   });
+
   it('allows 1 account to enter', async () => {
     await lottery.methods.enter().send({
       from: accounts[0],
@@ -31,6 +32,7 @@ describe('Lottery Contract', () => {
     assert.equal(accounts[0], players[0]);
     assert.equal(1, players.length);
   });
+
   it('allows multiple accounts to enter', async () => {
     await lottery.methods.enter().send({
       from: accounts[0],
@@ -51,5 +53,18 @@ describe('Lottery Contract', () => {
     assert.equal(accounts[1], players[1]);
     assert.equal(accounts[2], players[2]);
     assert.equal(3, players.length);
+  });
+
+  it('requires a min amount of ether to enter the lottery', async () => {
+    try {
+      await lottery.methods.enter().send({
+        from: accounts[0],
+        value: 100
+      });
+    } catch (err) {
+      assert(err);
+      return;
+    }
+    assert(false);
   });
 });
